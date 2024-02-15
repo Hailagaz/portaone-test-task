@@ -1,0 +1,163 @@
+<!--
+	Instructions:
+	1) open index.html in your browser
+	2) open Web Console for this (index.html) page
+	3) Press "Choose file" button and select your txt file with numbers
+	4) Output results will be displayed in the Web console
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portaone Test Task</title>
+</head>
+
+<body>
+	<script>
+		// Function to read file
+		function readFile(inputFile, callback) {
+			var reader = new FileReader();
+			reader.onload = function (event) {
+				var contents = event.target.result;
+				callback(contents);
+			};
+			reader.readAsText(inputFile);
+		}
+
+		// Task 1
+		// Function to calculate maximum number
+		function calculateMax(numbers) {
+			var max = numbers[0];
+			for (var i = 1; i < numbers.length; i++) {
+				if (numbers[i] > max) {
+					max = numbers[i];
+				}
+			}
+			return max;
+		}
+
+		// Task 2
+		// Function to calculate minimum number
+		function calculateMin(numbers) {
+			var min = numbers[0];
+			for (var i = 1; i < numbers.length; i++) {
+				if (numbers[i] < min) {
+					min = numbers[i];
+				}
+			}
+			return min;
+		}
+
+		// Task 3
+		// Function to calculate median
+		function calculateMedian(numbers) {
+			numbers.sort(function (a, b) { return a - b; });
+			var length = numbers.length;
+			if (length % 2 === 0) {
+				var midIndex = length / 2;
+				return (numbers[midIndex - 1] + numbers[midIndex]) / 2;
+			} else {
+				return numbers[Math.floor(length / 2)];
+			}
+		}
+
+		// Task 4
+		// Function to calculate arithmetic average value
+		function calculateAverage(numbers) {
+			var sum = numbers.reduce(function (a, b) { return a + b; }, 0);
+			return sum / numbers.length;
+		}
+
+		// Task 5
+		// Function to calculate the longest increasing sequence
+		function longestIncreasingSequence(numbers) {
+			var maxLength = 1; // Initialize the maximum sequence length to 1
+			var currentLength = 1; // Initialize the current sequence length to 1
+
+			// Iterate through the array starting from the second element
+			for (var i = 1; i < numbers.length; i++) {
+				// If the current number is greater than the previous one, increment the current sequence length
+				if (numbers[i] > numbers[i - 1]) {
+					currentLength++;
+				} else {
+					// If the current sequence length exceeds the maximum sequence length encountered so far, update the maximum sequence length
+					if (currentLength > maxLength) {
+						maxLength = currentLength;
+					}
+					// Reset the current sequence length to 1
+					currentLength = 1;
+				}
+			}
+			// Check if the current sequence length exceeds the maximum sequence length encountered so far after iterating through the array
+			if (currentLength > maxLength) {
+				maxLength = currentLength;
+			}
+			return maxLength;
+		}
+
+		// Task 6
+		// Function to calculate the longest decreasing sequence
+		function longestDecreasingSequence(numbers) {
+			var maxLength = 1; // Initialize the maximum sequence length to 1
+			var currentLength = 1; // Initialize the current sequence length to 1
+
+			// Iterate through the array starting from the second element
+			for (var i = 1; i < numbers.length; i++) {
+				// If the current number is less than the previous one, increment the current sequence length
+				if (numbers[i] < numbers[i - 1]) {
+					currentLength++;
+				} else {
+					// If the current sequence length exceeds the maximum sequence length encountered so far, update the maximum sequence length
+					if (currentLength > maxLength) {
+						maxLength = currentLength;
+					}
+					// Reset the current sequence length to 1
+					currentLength = 1;
+				}
+			}
+			// Check if the current sequence length exceeds the maximum sequence length encountered so far after iterating through the array
+			if (currentLength > maxLength) {
+				maxLength = currentLength;
+			}
+			return maxLength;
+		}
+
+		// Output
+		// Reading data from the file and processing
+		document.addEventListener('DOMContentLoaded', function () {
+			var inputFile = document.createElement('input');
+			inputFile.type = 'file';
+			inputFile.accept = '.txt';
+			inputFile.addEventListener('change', function (event) {
+				var file = event.target.files[0];
+				readFile(file, function (contents) {
+					var numbers = contents.trim().split('\n').map(Number);
+
+					// Outputting the results to the console
+					var maxNumber = calculateMax(numbers);
+					console.log("Maximum number:", maxNumber);
+
+					var minNumber = calculateMin(numbers);
+					console.log("Minimum number:", minNumber);
+
+					var median = calculateMedian(numbers);
+					console.log("Median:", median);
+
+					var average = calculateAverage(numbers);
+					console.log("Arithmetic average value:", average);
+
+					var longestSequence = longestIncreasingSequence(numbers);
+					console.log("Longest increasing sequence length:", longestSequence);
+
+					var longestDecreasing = longestDecreasingSequence(numbers);
+					console.log("Longest decreasing sequence length:", longestDecreasing);
+				});
+			});
+			document.body.appendChild(inputFile);
+		});
+	</script>
+</body>
+
+</html>
